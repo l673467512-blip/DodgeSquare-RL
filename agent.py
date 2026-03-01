@@ -9,7 +9,7 @@ from collections import deque
 class QNetwork(nn.Module):
     def __init__(self, state_size, action_size):
         super(QNetwork, self).__init__()
-        # 三层全连接网络架构
+        # Three-layer fully connected network architecture
         self.net = nn.Sequential(
             nn.Linear(state_size, 128),
             nn.ReLU(),

@@ -2,7 +2,7 @@ import pygame
 import numpy as np
 import random
 
-# 全局常量定义
+# Global constant definition
 WIDTH, HEIGHT = 400, 600
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -21,7 +21,7 @@ class DodgeEnv:
         self.reset()
 
     def reset(self):
-        """重置游戏核心状态"""
+        """Reset game core state"""
         self.agent_x = WIDTH // 2 - 20
         self.agent_y = HEIGHT - 40
         self.agent_speed = 10
@@ -34,12 +34,12 @@ class DodgeEnv:
         return self._get_state()
 
     def _get_state(self):
-        """获取归一化状态向量"""
+        """Obtain normalized state vector"""
         state = [self.agent_x / WIDTH, self.obs_x / WIDTH, self.obs_y / HEIGHT, self.obs_speed / 15.0]
         return np.array(state, dtype=np.float32)
 
     def step(self, action):
-        """执行游戏步进逻辑"""
+        """Execute game step logic"""
         if action == 0 and self.agent_x > 0:
             self.agent_x -= self.agent_speed
         elif action == 1 and self.agent_x < WIDTH - 40:
@@ -68,13 +68,13 @@ class DodgeEnv:
         return self._get_state(), reward, self.done
 
     def render(self, ep=None, eps=None, manual_game_over=False):
-        """核心渲染函数：集成 HUD 和死亡遮罩"""
+        """Core rendering function: Integrate HUD and death mask"""
         self.screen.fill(WHITE)
-        # 绘制实体
+        # Drawing Entity
         pygame.draw.rect(self.screen, BLUE, (self.agent_x, self.agent_y, 40, 20))
         pygame.draw.circle(self.screen, RED, (self.obs_x, int(self.obs_y)), 15)
 
-        # 绘制 HUD
+        # Drawing HUD
         score_txt = self.font.render(f"Score: {self.score}", True, BLACK)
         lives_txt = self.font.render(f"Life: {self.lives}", True, RED)
         self.screen.blit(score_txt, (10, 10))
@@ -84,7 +84,7 @@ class DodgeEnv:
             info_txt = self.font.render(f"Ep: {ep}  Eps: {eps:.2f}", True, BLACK)
             self.screen.blit(info_txt, (WIDTH - 140, 10))
 
-        # 死亡遮罩逻辑
+        # Death mask logic
         if manual_game_over:
             overlay = pygame.Surface((WIDTH, HEIGHT))
             overlay.set_alpha(160)
@@ -108,7 +108,7 @@ class DodgeEnv:
 
 
 def show_start_screen(env):
-    """显示启动菜单"""
+    """Display the startup menu"""
     waiting = True
     while waiting:
         env.screen.fill(WHITE)
@@ -133,11 +133,11 @@ def show_start_screen(env):
         pygame.time.delay(30)
 
 
-# 手动模式运行入口
+# Manual mode operation entry
 if __name__ == "__main__":
     env = DodgeEnv()
     while True:
-        show_start_screen(env)  # 显示菜单
+        show_start_screen(env)  # Display menu
         env.reset()
         manual_game_over = False
         game_active = True
@@ -148,7 +148,7 @@ if __name__ == "__main__":
                 if event.type == pygame.QUIT: pygame.quit(); exit()
                 if manual_game_over and (event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN):
                     if event.type == pygame.MOUSEBUTTONDOWN or event.key == pygame.K_r:
-                        game_active = False  # 退出游戏循环回到最外层显示菜单
+                        game_active = False  # Exit the game loop and return to the outermost display menu
 
             if not manual_game_over:
                 keys = pygame.key.get_pressed()
