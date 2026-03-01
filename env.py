@@ -15,7 +15,7 @@ class DodgeEnv:
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
-        pygame.display.set_caption("NeuralEvade: A Deep RL Survival Benchmark")
+        pygame.display.set_caption("DodgeSquare: A Deep RL Survival Benchmark")
         self.clock = pygame.time.Clock()
         self.font = pygame.font.SysFont("Arial", 22)
         self.reset()
